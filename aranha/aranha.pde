@@ -19,7 +19,4 @@ void draw() {
     if (d <= 20 && d >= 10) line(x, y, i, j);
   }
 }
-void mousePressed() {
-  save("aranha.png");
-}
 
