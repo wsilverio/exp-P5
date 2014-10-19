@@ -28,6 +28,7 @@ void draw() {
     stroke((pos.x < width/2)?int(map(pos.x, 0, width, 200, 255)):int(map(pos.x, 0, width, 255, 200)));
     for (int i = 0; i < qtde; i++) point(star[i][0], star[i][1]);
     translate(pos.x, pos.y); 
+    rotate(PI/6f);
     noFill();
     ellipse(2*l*cos(teta), 0, 10, 10);
 
@@ -36,6 +37,7 @@ void draw() {
     pushMatrix();
     noFill();
     translate(pos.x, pos.y);
+    rotate(PI/6f);
     ellipse(2*l*cos(teta), 0, 10, 10);
     popMatrix();
     fill(c);
