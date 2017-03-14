@@ -1,8 +1,3 @@
-//import controlP5.*;
-//ControlP5 cp5;
-//Slider pcor;
-//Slider scor;
-
 final int diam = 350;
 final float dmini = 0.025*diam;
 final int delayms = 100;
@@ -16,18 +11,6 @@ void setup() {
   noStroke();
   colorMode(HSB, maxHSB);
   frameRate = 999;
-
-  //cp5 = new ControlP5(this);
-  //pcor = cp5.addSlider("to")
-  //  .setPosition(50, height-70)
-  //  .setSize(width-100, 20)
-  //  .setRange(0, maxHSB)
-  //  ;
-  //scor = cp5.addSlider("from")
-  //  .setPosition(50, height-40)
-  //  .setSize(width-100, 20)
-  //  .setRange(0, maxHSB)
-  //  ;
 
   to = dist;
 

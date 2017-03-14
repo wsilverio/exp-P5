@@ -17,10 +17,10 @@ int to = 0;
 int from = 0;
 boolean zeroCross;
 
-color[] colorArray = new color[17];
+color[] colorArray = new color[3*17];
 
 void updateColors() {
-  color[] palette = new color[planta.length]; // matriz auxiliar
+  color[] palette = new color[3*planta.length]; // matriz auxiliar
 
   to += jump;
   if (to > maxHSB) {
@@ -31,9 +31,6 @@ void updateColors() {
   if (from < 0) {
     from = maxHSB + from;
   }
-
-  //pcor.setValue(to);
-  //scor.setValue(from);
 
   if (from > to) {
     zeroCross = true;
@@ -52,8 +49,13 @@ void updateColors() {
       int h = int(from+(to-from)*i/float(palette.length));
       palette[i] = color(h, maxHSB, maxHSB);
     }
-    for (int j = 0; j < planta[i].length; j++) {
-      colorArray[planta[i][j]] = palette[i];
+  }
+
+  for (int i = 0; i < planta.length; ++i) { // esta na paleta
+    for (int j = 0; j < planta[i].length; j++) { // leds na mesma cor
+      for (int k = 0; k < 3; ++k) { // jardim especifico
+        colorArray[planta[i][j]+k*17] = palette[i+k*planta.length];
+      }
     }
   }
 
@@ -62,19 +64,25 @@ void updateColors() {
 
 void sendColors(color[] cores) {
 
-  for (int i = 0; i < cores.length; ++i) {
-    if (i < 8) { // interno
-      for (int j = 0; j < jardim.size(); ++j) { // todos os jardins
-        jardim.get(j).controlador[0].cor[i] = cores[i];
-      }
-    } else if (i < 16) { // externo
-      for (int j = 0; j < jardim.size(); ++j) { // todos os jardins
-        jardim.get(j).controlador[1].cor[i-8] = cores[i];
-      }
-    } else { // central
-      for (int j = 0; j < cmaster.cor.length; ++j) {
-        cmaster.cor[j] = cores[i];
-      }
+  for (int i = cores.length-1; i >= 0; --i) {
+    if (i == 50) {
+      cmaster.cor[2] = cores[i];
+    } else if (i == 33) {
+      cmaster.cor[1] = cores[i];
+    } else if (i == 16) {
+      cmaster.cor[0] = cores[i];
+    } else if (i >= 42) {
+      jardim.get(2).controlador[1].cor[i-42] = cores[i];
+    } else if (i >= 34) {
+      jardim.get(2).controlador[0].cor[i-34] = cores[i];
+    } else if (i >= 25) {
+      jardim.get(1).controlador[1].cor[i-25] = cores[i];
+    } else if (i >= 17) {
+      jardim.get(1).controlador[0].cor[i-17] = cores[i];
+    } else if (i >= 8) {
+      jardim.get(0).controlador[1].cor[i-8] = cores[i];
+    } else {
+      jardim.get(0).controlador[0].cor[i] = cores[i];
     }
   }
 }
