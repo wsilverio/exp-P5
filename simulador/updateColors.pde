@@ -1,6 +1,4 @@
-
-
-byte planta[][] = {
+final byte planta[][] = {
   {8}, 
   {15, 9}, 
   {0}, 
@@ -12,48 +10,48 @@ byte planta[][] = {
   {12}
 };
 
-color[] colorArray = new color[17];
+final int dist = 200;
+final int jump = 5;
 
-int pcolor = 0;
-int scolor = 0;
-int dist = 200;
-int jump = 0;
-
+int to = 0;
+int from = 0;
 boolean zeroCross;
+
+color[] colorArray = new color[17];
 
 void updateColors() {
   color[] palette = new color[planta.length]; // matriz auxiliar
 
-  pcolor += jump;
-  if (pcolor > maxHSB) {
-    pcolor = pcolor - maxHSB;
+  to += jump;
+  if (to > maxHSB) {
+    to = to - maxHSB;
   }
 
-  scolor = pcolor - dist;
-  if (scolor < 0) {
-    scolor = maxHSB + scolor;
+  from = to - dist;
+  if (from < 0) {
+    from = maxHSB + from;
   }
 
-  scolor = constrain(scolor, 0, maxHSB);
+  //pcor.setValue(to);
+  //scor.setValue(from);
 
-  pcor.setValue(pcolor);
-  scor.setValue(scolor);
-
-  if (scolor > pcolor) {
+  if (from > to) {
     zeroCross = true;
   } else {
     zeroCross = false;
   }
 
-  color from = color(scolor, maxHSB, maxHSB);
-  color to = color(pcolor, maxHSB, maxHSB);
-
   for (int i = 0; i < palette.length; ++i) {
-    //if (zeroCross) {
-    //palette[i] = lerpColor(to, from, i/float(palette.length-1));
-    //} else {
-    palette[i] = lerpColor(from, to, i/float(palette.length-1));
-    //}
+    if (zeroCross) {
+      int h = int(from+(maxHSB+to-from)*i/float(palette.length));
+      if (h > maxHSB) {
+        h = h - maxHSB;
+      }
+      palette[i] = color(h, maxHSB, maxHSB);
+    } else {
+      int h = int(from+(to-from)*i/float(palette.length));
+      palette[i] = color(h, maxHSB, maxHSB);
+    }
     for (int j = 0; j < planta[i].length; j++) {
       colorArray[planta[i][j]] = palette[i];
     }
